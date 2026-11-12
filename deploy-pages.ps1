@@ -105,7 +105,7 @@ try {
     Invoke-Native 'git' @('-C', $resolvedDeploymentRoot, 'push', 'origin', 'gh-pages') 'Could not publish gh-pages.'
 
     $pagesConfig = Join-Path $resolvedDeploymentRoot 'pages-config.json'
-    $json = '{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"},"https_enforced":true}'
+    $json = '{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"}}'
     [IO.File]::WriteAllText($pagesConfig, $json, [Text.UTF8Encoding]::new($false))
     & gh api "repos/$Repository/pages" --silent 2>$null
     $pagesExist = $LASTEXITCODE -eq 0
