@@ -97,6 +97,11 @@ try {
     } elseif ($LASTEXITCODE -ne 0) {
         throw 'Could not compare the Pages build with the current deployment.'
     }
+    & git -C $resolvedDeploymentRoot config --local credential.helper ''
+    if ($LASTEXITCODE -ne 0) { throw 'Could not configure GitHub CLI authentication for the Pages push.' }
+    & git -C $resolvedDeploymentRoot config --local --add credential.helper '!gh auth git-credential'
+    if ($LASTEXITCODE -ne 0) { throw 'Could not configure GitHub CLI authentication for the Pages push.' }
+    $env:GIT_TERMINAL_PROMPT = '0'
     Invoke-Native 'git' @('-C', $resolvedDeploymentRoot, 'push', 'origin', 'gh-pages') 'Could not publish gh-pages.'
 
     $pagesConfig = Join-Path $resolvedDeploymentRoot 'pages-config.json'
