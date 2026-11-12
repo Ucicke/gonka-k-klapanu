@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.vite/
+.planning/
+.serena/
+.recycle-bin/
